@@ -1,0 +1,28 @@
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      DART_TOKEN:
+        type: string
+        description: "Dart API token for tool execution."
+      CLOUDFLARE_API_KEY:
+        type: string
+        description: "Cloudflare API key for deployment."
+      OAUTH_CLIENT_SECRET:
+        type: string
+        description: "OAuth client secret for authentication."
+    required:
+      - DART_TOKEN
+      - CLOUDFLARE_API_KEY
+      - OAUTH_CLIENT_SECRET
+  commandFunction: |
+    (config) => ({
+      command: "/app/bin/server",
+      args: [],
+      env: {
+        DART_TOKEN: config.DART_TOKEN,
+        CLOUDFLARE_API_KEY: config.CLOUDFLARE_API_KEY,
+        OAUTH_CLIENT_SECRET: config.OAUTH_CLIENT_SECRET
+      }
+    })
