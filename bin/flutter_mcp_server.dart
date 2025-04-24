@@ -1,6 +1,7 @@
 import 'package:mcp_server/mcp_server.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:logger/logger.dart' as ext_logger;
+import 'dart:io';
 
 Future<void> main(List<String> arguments) async {
   // Load environment variables (optional, for local dev)
@@ -16,9 +17,6 @@ Future<void> main(List<String> arguments) async {
       prompts: false,
     ),
   );
-
-// Register tools
-import 'dart:io';
 
 // Register real MCP tools
 void registerMcpTools() {
@@ -200,18 +198,13 @@ final Map<String, String> _resourceCache = {};
 
 server.addResource(
   name: 'example_resource',
+  uri: '/example_resource',
   description: 'Returns a static value, cached for repeated queries.',
-  inputSchema: {
-    'type': 'object',
-    'properties': {
-      'query': {'type': 'string', 'description': 'The resource query'}
-    },
-    'required': ['query']
-  },
-  handler: (input) async {
-    final query = input['query'] as String;
+  mimeType: 'text/plain',
+  handler: (String resourceName, Map<String, dynamic> input) async {
+    final query = '${input['query']}';
     if (_resourceCache.containsKey(query)) {
-      return ResourceResult([
+      return CallToolResult([
         TextContent(text: '[CACHED] ' + _resourceCache[query]!)
       ]);
     }
@@ -219,7 +212,7 @@ server.addResource(
     await Future.delayed(Duration(milliseconds: 500));
     final value = 'Resource value for query: $query';
     _resourceCache[query] = value;
-    return ResourceResult([
+    return CallToolResult([
       TextContent(text: value)
     ]);
   },
@@ -232,18 +225,13 @@ final Map<String, String> _exampleCache = {};
 
 server.addResource(
   name: 'flutter_news_resource',
+  uri: '/flutter_news_resource',
   description: 'Fetches the latest Flutter/Dart news headlines and changelogs.',
-  inputSchema: {
-    'type': 'object',
-    'properties': {
-      'topic': {'type': 'string', 'description': 'Topic (flutter, dart, changelog, etc.)'}
-    },
-    'required': ['topic']
-  },
-  handler: (input) async {
-    final topic = input['topic'] as String;
+  mimeType: 'text/plain',
+  handler: (String resourceName, Map<String, dynamic> input) async {
+    final topic = '${input['topic']}';
     if (_newsCache.containsKey(topic)) {
-      return ResourceResult([
+      return CallToolResult([
         TextContent(text: '[CACHED] ' + _newsCache[topic]!)
       ]);
     }
@@ -259,7 +247,7 @@ server.addResource(
       news = 'No news found for topic: $topic.';
     }
     _newsCache[topic] = news;
-    return ResourceResult([
+    return CallToolResult([
       TextContent(text: news)
     ]);
   },
@@ -267,18 +255,13 @@ server.addResource(
 
 server.addResource(
   name: 'dart_doc_resource',
+  uri: '/dart_doc_resource',
   description: 'Returns official documentation links and summaries for Dart/Flutter topics.',
-  inputSchema: {
-    'type': 'object',
-    'properties': {
-      'query': {'type': 'string', 'description': 'Documentation topic or keyword'}
-    },
-    'required': ['query']
-  },
-  handler: (input) async {
-    final query = input['query'] as String;
+  mimeType: 'text/plain',
+  handler: (String resourceName, Map<String, dynamic> input) async {
+    final query = '${input['query']}';
     if (_docCache.containsKey(query)) {
-      return ResourceResult([
+      return CallToolResult([
         TextContent(text: '[CACHED] ' + _docCache[query]!)
       ]);
     }
@@ -292,7 +275,7 @@ server.addResource(
       doc = 'Try searching https://dart.dev or https://docs.flutter.dev for "$query".';
     }
     _docCache[query] = doc;
-    return ResourceResult([
+    return CallToolResult([
       TextContent(text: doc)
     ]);
   },
@@ -300,18 +283,13 @@ server.addResource(
 
 server.addResource(
   name: 'community_examples_resource',
+  uri: '/community_examples_resource',
   description: 'Returns links to community-curated code examples and patterns.',
-  inputSchema: {
-    'type': 'object',
-    'properties': {
-      'topic': {'type': 'string', 'description': 'Example topic (e.g., bloc, provider, navigation)'}
-    },
-    'required': ['topic']
-  },
-  handler: (input) async {
-    final topic = input['topic'] as String;
+  mimeType: 'text/plain',
+  handler: (String resourceName, Map<String, dynamic> input) async {
+    final topic = '${input['topic']}';
     if (_exampleCache.containsKey(topic)) {
-      return ResourceResult([
+      return CallToolResult([
         TextContent(text: '[CACHED] ' + _exampleCache[topic]!)
       ]);
     }
@@ -327,7 +305,7 @@ server.addResource(
       example = 'Try https://flutterawesome.com or https://pub.dev for "$topic".';
     }
     _exampleCache[topic] = example;
-    return ResourceResult([
+    return CallToolResult([
       TextContent(text: example)
     ]);
   },
