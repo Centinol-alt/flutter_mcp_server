@@ -74,7 +74,11 @@ Or build and run with Docker:
 ### Environment Variables
 All sensitive data is managed via environment variables. See `.env.example` for required keys.
 
-### Adding the MCP Server to Windsurf
+---
+
+### Adding the MCP Server to Clients
+
+#### Adding the MCP Server to Windsurf
 To use this MCP server with [Windsurf](https://github.com/CodeiumAI/windsurf), add the following entry to your `.codeium/windsurf/mcp_config.json`:
 
 ```json
@@ -95,7 +99,7 @@ To use this MCP server with [Windsurf](https://github.com/CodeiumAI/windsurf), a
 
 This tells Windsurf how to launch your MCP server using Docker. Adjust the image name if needed.
 
-### Adding the MCP Server to Cursor mcp.json
+#### Adding the MCP Server to Cursor mcp.json
 If you use [Cursor](https://www.cursor.so/) or another client that supports a `mcp.json` config, add your server like this:
 
 ```json
@@ -119,6 +123,8 @@ If you use [Cursor](https://www.cursor.so/) or another client that supports a `m
 ```
 
 This enables Cursor or compatible clients to start and connect to your MCP server automatically.
+
+---
 
 ### Deployment (Smithery)
 - Ensure your `Dockerfile` and `smithery.yaml` are present and correct in the repository root.
