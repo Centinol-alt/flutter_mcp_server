@@ -1,4 +1,4 @@
-
+[![smithery badge](https://smithery.ai/badge/@Centinol-alt/flutter_mcp_server)](https://smithery.ai/server/@Centinol-alt/flutter_mcp_server)
 
 # Flutter MCP Server
 
