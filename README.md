@@ -124,6 +124,7 @@ If you use [Cursor](https://www.cursor.so/) or another client that supports a `m
 
 This enables Cursor or compatible clients to start and connect to your MCP server automatically.
 
+> Make sure docker is installed and running on your machine.
 ---
 
 ### Deployment (Smithery)
